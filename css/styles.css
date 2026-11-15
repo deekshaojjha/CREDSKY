@@ -49,6 +49,9 @@ body {
   overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
 }
 
+/* The hidden attribute must win over component display rules (flex/grid) */
+[hidden] { display: none !important; }
+
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 .app {
