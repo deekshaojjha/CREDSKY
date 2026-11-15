@@ -127,6 +127,7 @@ export function showError(type, { onRetry, backTo, onBack } = {}) {
   const copy = ERROR_COPY[type] ?? ERROR_COPY.UNKNOWN;
   show("error");
   document.body.removeAttribute("data-tone"); // neutral theme on errors
+  document.body.removeAttribute("data-theme");
   el.errorTitle.textContent = copy.title;
   el.errorMsg.textContent = copy.message;
   el.retryBtn.hidden = !copy.retry;
@@ -160,6 +161,7 @@ export function renderWeather(data, rawText) {
   const vibe = $("vibe");
   vibe.dataset.tone = mood.key;
   document.body.dataset.tone = mood.key; // weather-reactive theme
+  document.body.dataset.theme = c.is_day === 0 ? "dark" : "light"; // day = light, night = dark
   setText("vibe-title", mood.title);
   setText("vibe-text", mood.description);
 
