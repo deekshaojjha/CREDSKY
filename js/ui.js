@@ -126,6 +126,7 @@ export function showLoading(city) {
 export function showError(type, { onRetry, backTo, onBack } = {}) {
   const copy = ERROR_COPY[type] ?? ERROR_COPY.UNKNOWN;
   show("error");
+  document.body.removeAttribute("data-tone"); // neutral theme on errors
   el.errorTitle.textContent = copy.title;
   el.errorMsg.textContent = copy.message;
   el.retryBtn.hidden = !copy.retry;
@@ -158,6 +159,7 @@ export function renderWeather(data, rawText) {
 
   const vibe = $("vibe");
   vibe.dataset.tone = mood.key;
+  document.body.dataset.tone = mood.key; // weather-reactive theme
   setText("vibe-title", mood.title);
   setText("vibe-text", mood.description);
 

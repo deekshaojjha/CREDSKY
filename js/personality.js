@@ -20,12 +20,12 @@ export const SNOW_CODES = new Set([
 ]);
 
 export const PERSONALITIES = Object.freeze({
-  RAIN: { key: "rain", title: "Rain Check", description: "Carry an umbrella before stepping out." },
-  COLD: { key: "cold", title: "Freeze Frame", description: "Bone-chilling cold. Bundle up tight." },
-  HOT: { key: "hot", title: "Sun Alert", description: "Stay hydrated and avoid excessive sun exposure." },
-  WINDY: { key: "windy", title: "Breezy Mode", description: "Expect strong winds. Dress accordingly." },
-  PERFECT: { key: "perfect", title: "Perfect Day", description: "Great weather to step outside." },
-  MILD: { key: "mild", title: "Easy Going", description: "Nothing dramatic out there. Carry a light layer." },
+  RAIN: { key: "rain", title: "Rain Check", description: "Time to carry an umbrella. The sky is leaking again." },
+  COLD: { key: "cold", title: "Freeze Frame", description: "Bone-chilling cold. Penguins would wear a jacket today." },
+  HOT: { key: "hot", title: "Sun Alert", description: "The sun is showing off. Hydrate, find shade, don't forget sunglasses." },
+  WINDY: { key: "windy", title: "Breezy Mode", description: "Hold onto your hat, and your dignity. The wind has opinions." },
+  PERFECT: { key: "perfect", title: "Perfect Day", description: "The weather is in a great mood. Go outside before it changes its mind." },
+  MILD: { key: "mild", title: "Easy Going", description: "Weather's keeping it low-key. A light layer and you're sorted." },
 });
 
 /**
