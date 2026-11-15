@@ -1,0 +1,13 @@
+{
+  "name": "skyni",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "SkyNI: live weather for any city (vanilla HTML/CSS/JS + WeatherAPI)",
+  "scripts": {
+    "build": "node scripts/build-config.cjs",
+    "start": "node scripts/build-config.cjs && npx --yes serve . -l 3000",
+    "pretest": "node scripts/build-config.cjs",
+    "test": "node --test tests/logic.test.js"
+  }
+}

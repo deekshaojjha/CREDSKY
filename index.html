@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b0f" />
+  <title>SkyNI — Weather, sharply</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <main class="app" id="app">
+    <header class="app__header">
+      <div class="brand" aria-label="SkyNI">
+        <span class="brand__mark" aria-hidden="true">S</span>
+        <span class="brand__name">Sky<b>NI</b></span>
+      </div>
+      <p class="app__tag">Live weather for any city.</p>
+    </header>
+
+    <!-- FR-02: search -->
+    <form class="search" id="search-form" role="search" novalidate>
+      <label class="sr-only" for="city-input">City name</label>
+      <input
+        id="city-input"
+        class="search__input"
+        type="text"
+        name="city"
+        placeholder="Search a city…"
+        autocomplete="off"
+        autocapitalize="words"
+        spellcheck="false"
+        aria-describedby="search-hint"
+        value="Mumbai"
+      />
+      <button class="search__btn" type="submit" id="search-btn">Search</button>
+    </form>
+    <p class="search__hint" id="search-hint" role="alert" aria-live="assertive"></p>
+
+    <!-- FR-03: popular cities -->
+    <section aria-labelledby="popular-title" class="popular">
+      <h2 id="popular-title" class="eyebrow">Popular cities</h2>
+      <div class="chips" id="chips" role="group" aria-label="Popular cities"></div>
+    </section>
+
+    <!-- Status / loading / error live region -->
+    <div id="status" class="sr-only" role="status" aria-live="polite"></div>
+
+    <section id="stage" class="stage" aria-busy="false">
+      <div id="loading" class="panel loading" hidden>
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Fetching weather…</p>
+      </div>
+
+      <div id="error" class="panel error" hidden role="alert">
+        <div class="error__icon" aria-hidden="true">!</div>
+        <h3 id="error-title" class="error__title">Something went wrong</h3>
+        <p id="error-message" class="error__msg"></p>
+        <div class="error__actions">
+          <button type="button" class="btn btn--primary" id="retry-btn">Retry</button>
+          <button type="button" class="btn btn--ghost" id="back-btn" hidden>Back to <span id="back-city"></span></button>
+        </div>
+      </div>
+
+      <div id="weather" hidden>
+        <!-- FR-04: weather card -->
+        <article class="panel card" id="card" aria-label="Current weather">
+          <div class="card__top">
+            <div class="card__place">
+              <h2 class="card__city" id="w-city">—</h2>
+              <p class="card__region" id="w-region">—</p>
+              <p class="card__time"><span id="w-time">—</span> · <span id="w-tz">—</span></p>
+            </div>
+            <img class="card__icon" id="w-icon" alt="" width="84" height="84" />
+          </div>
+
+          <div class="card__temp">
+            <span class="temp" id="w-temp">—</span><span class="temp__unit">°C</span>
+          </div>
+          <p class="card__cond" id="w-cond">—</p>
+          <p class="card__feels">Feels like <b id="w-feels">—</b>°C</p>
+
+          <!-- FR-05: personality -->
+          <div class="vibe" id="vibe" data-tone="perfect">
+            <div class="vibe__label">
+              <span class="eyebrow">Weather mood</span>
+              <span class="vibe__title" id="vibe-title">—</span>
+            </div>
+            <p class="vibe__text" id="vibe-text">—</p>
+          </div>
+          <p class="fineprint">App-generated interpretation, not a real credit score.</p>
+        </article>
+
+        <!-- FR-06: primary metrics -->
+        <section class="metrics" aria-label="Key metrics">
+          <div class="panel metric">
+            <span class="metric__label">Humidity</span>
+            <span class="metric__value"><span id="m-humidity">—</span><small>%</small></span>
+          </div>
+          <div class="panel metric">
+            <span class="metric__label">Wind</span>
+            <span class="metric__value"><span id="m-wind">—</span><small>km/h</small></span>
+          </div>
+          <div class="panel metric">
+            <span class="metric__label">UV index</span>
+            <span class="metric__value"><span id="m-uv">—</span><small>index</small></span>
+          </div>
+        </section>
+
+        <!-- FR-06: secondary info -->
+        <section class="panel secondary" aria-label="More details">
+          <dl class="secondary__grid">
+            <div><dt>Cloud coverage</dt><dd><span id="s-cloud">—</span> %</dd></div>
+            <div><dt>Visibility</dt><dd><span id="s-vis">—</span> km</dd></div>
+            <div><dt>Pressure</dt><dd><span id="s-pressure">—</span> mb</dd></div>
+            <div><dt>Wind speed</dt><dd><span id="s-wind">—</span> km/h <span id="s-dir" class="muted"></span></dd></div>
+            <div><dt>Temperature</dt><dd><span id="s-temp-f">—</span> °F</dd></div>
+            <div><dt>Last updated</dt><dd id="s-updated">—</dd></div>
+          </dl>
+        </section>
+
+        <!-- FR-07: JSON viewer -->
+        <section class="panel json" aria-label="API response viewer">
+          <div class="json__bar">
+            <div class="tabs" role="tablist" aria-label="JSON view">
+              <button role="tab" id="tab-formatted" aria-selected="true" aria-controls="json-view" class="tab is-active" data-view="formatted">Formatted</button>
+              <button role="tab" id="tab-raw" aria-selected="false" aria-controls="json-view" class="tab" data-view="raw" tabindex="-1">Raw</button>
+            </div>
+            <button type="button" class="btn btn--ghost btn--sm" id="copy-btn">Copy</button>
+          </div>
+          <pre class="json__view" id="json-view" role="tabpanel" tabindex="0" aria-labelledby="tab-formatted"></pre>
+        </section>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Data from <a href="https://www.weatherapi.com/" target="_blank" rel="noopener">WeatherAPI.com</a></p>
+    </footer>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
